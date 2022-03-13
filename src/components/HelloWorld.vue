@@ -78,9 +78,7 @@
         >
       </li>
       <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
+        <router-link to="/r/foo">vue-loader</router-link>
       </li>
       <li>
         <a
