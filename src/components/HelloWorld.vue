@@ -78,7 +78,7 @@
         >
       </li>
       <li>
-        <router-link to="/r/foo">vue-loader</router-link>
+        <router-link to="/r/pcmasterrace">vue-loader</router-link>
       </li>
       <li>
         <a
