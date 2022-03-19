@@ -1,29 +1,19 @@
 # reddit.uno
 
-## Project setup
-```
-npm install
-```
+Goal: `old.reddit.com` but built for mobile. 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# Features 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- [X] View posts for a subreddit. 
+- [X] View images and image galleries for a subreddit post. 
+- [X] View videos for a subreddit post. 
+- [ ] View embeds for a subreddit post. 
+- [ ] View comments for a subreddit post. 
+- [ ] Pagination for viewing all posts of a subreddit. 
+- [ ] View more comment replies + pagination of comments. 
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [X] No annoying banners asking you to open in the app. 
+- [X] No making content exclusive to mobile app. View all posts, comments, media. 
+- [X] No tracking or analytics. Browse anonymously. 
+- [X] Built for mobile layout. Looks good on your device. 
+- [X] All webpages cross-compatible with Reddit.com. All `reddit.uno` URLs can be opened on `reddit.com` by just changing `.uno` to `.com` and vice-versa. 
