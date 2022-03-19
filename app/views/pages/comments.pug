@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    include ../includes/headers/default.pug
+    include ../includes/headers/media.pug
+    
+    title= title
+  body.sans-serif.white.bg-near-black
+    include ../includes/videoplayer.pug
+    include ../includes/photo-gallery.pug
+
+    h1.ph3= title 
+
+    include ../includes/reddit/post.pug  
+    +redditPost(post, 0)
+    ul 
+      for comment in comments
+        li
+          h4= comment.data.body
+          p= comment.data.author

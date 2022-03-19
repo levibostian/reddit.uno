@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+  head
+    include ../includes/headers/default.pug
+    include ../includes/headers/media.pug
+    
+    title= title
+  body.sans-serif.white.bg-near-black
+    include ../includes/videoplayer.pug
+    include ../includes/photo-gallery.pug
+
+    h1.ph3.underline= "/r/" + subreddit
+    - var posts = subredditPosts
+
+    ul.pa0
+      include ../includes/reddit/post.pug
+      each post, index in posts
+        - var isOdd = index % 2 == 1
+        
+        if isOdd
+          li.pa3.bg-dark-gray
+            +redditPost(post, index)
+        else 
+          li.pa3
+            +redditPost(post, index)
+    

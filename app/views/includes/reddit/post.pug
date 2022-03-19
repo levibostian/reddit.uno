@@ -1,0 +1,18 @@
+include post-video.pug 
+include post-gallery.pug
+include post-image.pug
+
+mixin redditPost(post, index)
+  - var hasImages = post.image
+  - var hasVideo = post.data.secure_media
+  - var isGallery = post.data.is_gallery
+
+  a.white(href= post.data.permalink)
+    h3.pv1.ma0= post.data.title 
+  p.mt0.mb1= post.data.author
+  if hasVideo
+    +postVideo(post, index)
+  else if isGallery
+    +postGallery(post, index)
+  else if hasImages
+    +postImage(post, index)

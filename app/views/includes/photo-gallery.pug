@@ -1,3 +1,13 @@
+//-
+  Meant to only be included once, right after html body starts. 
+  does all the setup needed to display a gallery. What you need to do:
+  1. Have a way to trigger showing the gallery. I suggest showing an image that when clicked, displays images
+  2. call function "openPhotoSwipe()" with an array of images with correct type. 
+  3. dont forget to include items in header for photo gallery. 
+
+script(src="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/photoswipe.min.js")
+script(src="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/photoswipe-ui-default.min.js")
+
 // Root element of PhotoSwipe. Must have class pswp.
 .pswp(tabindex='-1' role='dialog' aria-hidden='true')
   // Background of PhotoSwipe. It's a separate element as animating opacity is faster than rgba().
@@ -33,3 +43,21 @@
       button.pswp__button.pswp__button--arrow--right(title='Next (arrow right)')
       .pswp__caption
         .pswp__caption__center
+
+script(type="text/javascript").
+  const openPhotoSwipe = function(photos) {
+    var pswpElement = document.querySelectorAll('.pswp')[0];        
+
+    var options = {
+      // https://photoswipe.com/documentation/options.html
+      index: 0, // always start at the first photo in gallery. 
+      bgOpacity: 0.9, // background opacity to see webpage behind a little bit
+      loop: false, // don't loop the photos. Have a start and finish. 
+      pinchToClose: true,
+      closeOnScroll: true,
+      history: false // I dont want URL modified so, disable this. 
+    };
+
+    const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, photos, options);
+    gallery.init();
+  }
