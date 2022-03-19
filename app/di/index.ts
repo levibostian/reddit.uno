@@ -1,7 +1,11 @@
+import { SubredditController, SubredditControllerImpl } from "../controller/subreddit_controller"
 import { ConsoleLogger, Logger } from "../logger"
+import { RedditHttp } from "../service"
 
 export enum Dependency {
-  Logger = "Logger"
+  Logger,
+  SubredditController,
+  RedditHttp
 }
 
 class DiContainer {
@@ -19,6 +23,17 @@ class DiContainer {
 
   logger(): Logger {
     return this.getOverride(Dependency.Logger) || new ConsoleLogger()
+  }
+
+  redditHttp(): RedditHttp {
+    return this.getOverride(Dependency.RedditHttp) || new RedditHttp(this.logger())
+  }
+
+  subredditController(): SubredditController {
+    return (
+      this.getOverride(Dependency.SubredditController) ||
+      new SubredditControllerImpl(this.redditHttp(), this.logger())
+    )
   }
 
   private getOverride<T>(dependency: Dependency): T | undefined {

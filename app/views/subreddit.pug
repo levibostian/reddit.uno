@@ -1,0 +1,86 @@
+doctype html
+html(lang="en")
+  head
+    include includes/header.pug
+    // video player CSS for default theme 
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.18.1/video-js.css" rel="stylesheet")
+    // photo gallery CSS for UI
+    link(rel="stylesheet" href="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/photoswipe.min.css")
+    link(rel="stylesheet" href="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/default-skin/default-skin.min.css")
+    title= title
+  body.sans-serif.white.bg-near-black
+    // putting script here because we need it loaded before we make any `video-js` html elements or we get an error.
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.18.1/video.min.js")
+
+    // photo gallery 
+    script(src="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/photoswipe.min.js")
+    script(src="https://cdn.statically.io/gh/dimsemenov/PhotoSwipe/v4.1.3/dist/photoswipe-ui-default.min.js")
+    // gallery HTML that we can re-use
+    include includes/photo-gallery.pug
+    script(type="text/javascript").
+      const openPhotoSwipe = function(photos) {
+        var pswpElement = document.querySelectorAll('.pswp')[0];        
+
+        var options = {
+          // https://photoswipe.com/documentation/options.html
+          index: 0, // always start at the first photo in gallery. 
+          bgOpacity: 0.9, // background opacity to see webpage behind a little bit
+          loop: false, // don't loop the photos. Have a start and finish. 
+          pinchToClose: true,
+          closeOnScroll: true,
+          history: false // I dont want URL modified so, disable this. 
+        };
+
+        const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, photos, options);
+        gallery.init();
+      }
+
+    h1.ph3.underline= "/r/" + subreddit
+    - var posts = subredditPosts
+
+    ul.pa0
+      each post, index in posts
+        - var hasImages = post.data.image
+        - var hasVideo = post.data.secure_media
+        - var isGallery = post.data.is_gallery
+        - var isOdd = index % 2 == 1        
+        mixin liContent(post)
+          a.white(href= post.data.permalink)
+            h3.pv1.ma0= post.data.title 
+          p.mt0.mb1= post.data.author
+          if hasVideo
+            // each video needs a unique ID or videojs will only load 1 video 
+            - var uniqueVideoTag = "reddit-video-" + index
+            video-js.vjs-default-skin.w-100(controls preload="auto" id=uniqueVideoTag)
+              source(src=post.data.secure_media.reddit_video.hls_url type='application/x-mpegURL')
+            script(type="text/javascript").
+              var player = videojs("#{uniqueVideoTag}"); 
+          else if isGallery
+            - var uniqueMediaTag = "gallery-" + index
+            - var galleryImagesId = "gallery-images-" + index 
+            - var galleryImages = post.data.gallery_images
+            - var firstGalleryImage = galleryImages[0].src
+
+            .relative(id=uniqueMediaTag)
+              .absolute.right-0.pa3.bg-near-black                
+                include includes/image-gallery-icon
+              img(src=firstGalleryImage id=uniqueMediaTag loading="lazy")
+            // hidden input so javascript can obtain the list of gallery images later when button click. 
+            input(type='hidden' value=galleryImages id=galleryImagesId)
+
+            script(type="text/javascript").
+              document.getElementById("#{uniqueMediaTag}").onclick = function(event) {
+                const images = JSON.parse(document.getElementById("#{galleryImagesId}").value)
+
+                openPhotoSwipe(images)
+              }
+          else if hasImages
+            img.w-100(src=post.data.image.url loading="lazy")
+          
+        if isOdd
+          li.pa3.bg-dark-gray
+            +liContent(post)
+        else 
+          li.pa3
+            +liContent(post)
+    
