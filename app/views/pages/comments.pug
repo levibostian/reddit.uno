@@ -13,8 +13,7 @@ html(lang="en")
 
     include ../includes/reddit/post.pug  
     +redditPost(post, 0)
-    ul 
-      for comment in comments
-        li
-          h4= comment.data.body
-          p= comment.data.author
+
+    include ../includes/reddit/comment.pug
+    for comment in comments
+      +redditComment(comment)          
