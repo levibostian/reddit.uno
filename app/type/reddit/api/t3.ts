@@ -8,6 +8,11 @@ export interface RedditApiT3 {
   created_uts: number
   stickied: boolean
   permalink: string 
+
+  // embedded HTML 
+  media_embed?: {
+    content: string
+  }
   
   // Gallery of images post type 
   is_gallery: boolean

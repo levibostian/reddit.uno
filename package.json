@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "helmet": "^5.0.2",
+    "html-entities": "^2.3.2",
     "pug": "^3.0.2",
     "tiny-json-http": "^7.4.2"
   },

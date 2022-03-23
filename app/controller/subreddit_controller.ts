@@ -5,6 +5,8 @@ import { writeFileSync } from "fs"
 import { PhotoSwipeImage } from "../type/photoswipe"
 import { Subreddit, SubredditApiResponse, SubredditPost } from "../type/reddit/subreddit"
 import { CommentsApiResponse, responseToParsedObject, SubredditPostComments } from "../type/reddit/comments"
+import { env } from "process"
+import { decode as htmlDecode} from 'html-entities'
 
 export interface SubredditController {
   getPosts(subreddit: string): Promise<Subreddit | undefined>
@@ -18,14 +20,15 @@ export class SubredditControllerImpl implements SubredditController {
     let response: Result<SubredditApiResponse> = await this.http.get(`/r/${subreddit}`)
     if (isError(response)) return undefined
 
-    response = this.fixLinks(response)
-
-    // for debugging, only 
-    // writeFileSync("/tmp/posts.json", JSON.stringify(response, null, 2))
+    response = this.decode(response)
 
     response.data.children.forEach((post) => {
       post = this.processPost(post)
     })
+
+    if (env.NODE_ENV !== 'production') {
+      writeFileSync("/tmp/posts.json", JSON.stringify(response, null, 2))
+    }
 
     return response.data.children
   }
@@ -34,20 +37,24 @@ export class SubredditControllerImpl implements SubredditController {
     let response: Result<CommentsApiResponse> = await this.http.get(`/r/${subreddit}/comments/${postId}`)
     if (isError(response)) return undefined
 
-    response = this.fixLinks(response)
+    response = this.decode(response)
     const postAndComments: SubredditPostComments = responseToParsedObject(response)
 
     postAndComments.post = this.processPost(postAndComments.post)
 
-    // for debugging, only 
-    writeFileSync("/tmp/comments.json", JSON.stringify(postAndComments, null, 2))
+    if (env.NODE_ENV !== 'production') {
+      writeFileSync("/tmp/comments.json", JSON.stringify(postAndComments, null, 2))
+    }
 
     return postAndComments
   }
 
-  private fixLinks<T>(obj: T): T {
+  private decode<T>(obj: T): T {
     // Fix URLs of images: https://old.reddit.com/r/redditdev/comments/9ncg2r/changes_in_api_pictures/
-    return JSON.parse(JSON.stringify(obj).replaceAll("amp;", "")) as T
+    let objString = JSON.stringify(obj)
+    objString = htmlDecode(objString, {level: 'html5'})
+    
+    return JSON.parse(objString) as T
   }
 
   private processPost(post: SubredditPost): SubredditPost {    
