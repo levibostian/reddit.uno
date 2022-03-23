@@ -15,6 +15,8 @@ html(lang="en")
     include ../includes/reddit/post.pug  
     +redditPost(post, 0)
 
+    hr    
+
     include ../includes/reddit/comment.pug
     for comment in comments
       +redditComment(comment)          

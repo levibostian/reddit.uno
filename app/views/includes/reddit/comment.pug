@@ -12,7 +12,7 @@ mixin redditComment(comment)
             - depth = depth - 1
             - index = index + 1
         .flex.flex-column.items-start
-            h4.pa0.mh1.mt2.mb1= comment.data.body
+            h4.pa0.mh1.mt2.mb1!= comment.data.body_html
             p.pa0.mh1.mt0.mb2= comment.data.author
 
     - var hasReplies = comment.data.replies

@@ -19,3 +19,8 @@ Goal: `old.reddit.com` but built for mobile.
 - [X] Built for mobile layout. Looks good on your device. 
 - [X] Dark mode by default.
 - [X] All webpages cross-compatible with Reddit.com. All `reddit.uno` URLs can be opened on `reddit.com` by just changing `.uno` to `.com` and vice-versa. 
+
+# What reddit.uno *is not*
+
+* Allowing you to login and create posts/comments. This app is a read-only reddit app. If you want to login to a reddit account, we suggest you download a reddit app on your phone.
+* Replacement to desktop `reddit.com`. It's only the mobile website that's broken. That's what this replaces. The site may not look good on desktop. It's advised that you use this site only for mobile viewing. 

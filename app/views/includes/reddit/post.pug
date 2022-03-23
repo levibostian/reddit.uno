@@ -20,3 +20,5 @@ mixin redditPost(post, index)
     +postGallery(post, index)
   else if hasImages
     +postImage(post, index)
+  else 
+    p!= post.data.selftext_html
