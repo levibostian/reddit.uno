@@ -8,7 +8,7 @@ Goal: `old.reddit.com` but built for mobile.
 - [X] View images and image galleries for a subreddit post. 
 - [X] View videos for a subreddit post. 
 - [ ] View embeds for a subreddit post. 
-- [ ] View comments for a subreddit post. 
+- [X] View comments for a subreddit post. 
 - [ ] Pagination for viewing all posts of a subreddit. 
 - [ ] View more comment replies + pagination of comments. 
 
