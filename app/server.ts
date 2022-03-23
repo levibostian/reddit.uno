@@ -20,12 +20,10 @@ app.use(
       "default-src": ["'self'", "https://*"],
       // blob: is used by video-js
       "script-src": [
-        "https://unpkg.com",
+        "https://*",
         "'self'",
-        "https://cdnjs.cloudflare.com",
         "'unsafe-inline'",
-        "blob:",
-        "https://cdn.statically.io"
+        "blob:"
       ]
       /* eslint-enable @typescript-eslint/naming-convention */
     }

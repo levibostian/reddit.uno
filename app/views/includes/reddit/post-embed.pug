@@ -1,15 +1,3 @@
 mixin postEmbed(post, index)
     - var elementId = "reddit-post-embed-" + index
-    .embed-iframe(id=elementId)
-
-    script(type="text/javascript").
-        window.onload = function() {
-            let embedIframe = '!{post.data.media_embed.content}';
-            let embedContainer = document.getElementById("#{elementId}")
-            embedContainer.innerHTML = embedIframe
-            // now that we have set the iframe as the child of our element, we can get the class name of it. 
-            let iframeElement = embedContainer.childNodes[0]
-
-            ResponsiveIframes.init(iframeElement.className);
-        }
-        
+    .embed-iframe(id=elementId)!= post.data.media_embed.content

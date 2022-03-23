@@ -11,7 +11,7 @@ Goal: `old.reddit.com` but built for mobile.
 - [X] View comments for a subreddit post. 
 - [ ] Pagination for viewing all posts of a subreddit. 
 - [ ] View more comment replies + pagination of comments. 
-- [ ] Navigate between hot, top, etc. categories of a subreddit. 
+- [X] Navigate between hot, top, etc. categories of a subreddit. 
 
 - [X] No annoying banners asking you to open in the app. 
 - [X] No making content exclusive to mobile app. View all posts, comments, media. 

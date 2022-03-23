@@ -2,6 +2,14 @@ import { PhotoSwipeImage } from "../photoswipe";
 import { RedditApiListing } from "./api/listing";
 import { RedditApiT3 } from "./api/t3";
 
+export enum SubredditCategory {
+  Hot = "hot",
+  New = "new",
+  Top = "top",
+  Rising = "rising"
+}
+
+export const subredditCategories = Object.values(SubredditCategory)
 
 export interface SubredditApiResponse {
   //kind: Listing

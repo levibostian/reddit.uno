@@ -1,2 +1,23 @@
 // responsive iframes for embedding 
 script(src="https://cdn.statically.io/gh/taylordaughtry/responsive-iframes/433aa3faf2c3d9a0bf54b8ce65e9a1523b7d5d88/responsive-iframes.min.js")
+
+script.
+    window.addEventListener("load", loadiFrames, true); 
+    function loadiFrames(){ 
+        const elements = document.getElementsByTagName('iframe');
+        for (var i = 0; i < elements.length; i++) {
+            const iframeElement = elements[i];
+
+            // iframe must have hard-coded dimensions in order for responsive iframe script to be successful. 
+            // so, if we find dimensions are set to 100%, we set different hard-coded ones to force responsive.
+            let isBrokenStyleDimensions = iframeElement.height == "100%" || iframeElement.width == "100%"
+            if (isBrokenStyleDimensions) {
+                // we default to 16:9 aspect ratio. 
+                iframeElement.width = 806;
+                iframeElement.height = 453;
+            }
+            iframeElement.setAttribute("loading", "lazy")
+        }
+         
+        ResponsiveIframes.init();
+    }; 

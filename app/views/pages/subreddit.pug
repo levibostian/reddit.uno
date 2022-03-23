@@ -11,8 +11,18 @@ html(lang="en")
     include ../includes/embed.pug
 
     h1.ph3.underline= "/r/" + subreddit
-    - var posts = subredditPosts
 
+    mixin subredditCategoryLink(category) 
+      a.dib.fl.ph2(href="/r/" + subreddit + "/" + category)
+        h5.white= category
+
+    .categories.overflow-auto
+      +subredditCategoryLink("hot") 
+      +subredditCategoryLink("top")    
+      +subredditCategoryLink("new") 
+      +subredditCategoryLink("rising") 
+
+    - var posts = subredditPosts
     ul.pa0
       include ../includes/reddit/post.pug
       each post, index in posts

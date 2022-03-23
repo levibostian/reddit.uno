@@ -3,21 +3,24 @@ import { isError, Result } from "../type/http_response"
 import { Logger } from "../logger"
 import { writeFileSync } from "fs"
 import { PhotoSwipeImage } from "../type/photoswipe"
-import { Subreddit, SubredditApiResponse, SubredditPost } from "../type/reddit/subreddit"
+import { Subreddit, SubredditApiResponse, SubredditCategory, SubredditPost } from "../type/reddit/subreddit"
 import { CommentsApiResponse, responseToParsedObject, SubredditPostComments } from "../type/reddit/comments"
 import { env } from "process"
 import { decode as htmlDecode} from 'html-entities'
 
 export interface SubredditController {
-  getPosts(subreddit: string): Promise<Subreddit | undefined>
+  getPosts(subreddit: string, category?: SubredditCategory): Promise<Subreddit | undefined>
   getPostComments(subreddit: string, postId: string): Promise<SubredditPostComments | undefined>
 }
 
 export class SubredditControllerImpl implements SubredditController {
   constructor(private http: RedditHttp, private logger: Logger) {}
+  
+  async getPosts(subreddit: string, category?: SubredditCategory): Promise<Subreddit | undefined> {
+    let httpPath = `/r/${subreddit}`
+    if (category) httpPath = `/r/${subreddit}/${category}`
 
-  async getPosts(subreddit: string): Promise<Subreddit | undefined> {
-    let response: Result<SubredditApiResponse> = await this.http.get(`/r/${subreddit}`)
+    let response: Result<SubredditApiResponse> = await this.http.get(httpPath)
     if (isError(response)) return undefined
 
     response = this.decode(response)

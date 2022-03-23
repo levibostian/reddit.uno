@@ -1,5 +1,6 @@
 import express from "express"
 import { DI } from "../di"
+import { subredditCategories, SubredditCategory } from "../type/reddit/subreddit"
 
 const router = express.Router()
 
@@ -7,6 +8,24 @@ router.get("/r/:subreddit", async (req, res, next) => {
   const subreddit = req.params.subreddit
   const subredditController = DI.subredditController()
   const subredditPosts = await subredditController.getPosts(subreddit)
+  if (subredditPosts == undefined) return res.render("error")
+
+  return res.render("subreddit", {
+    title: subreddit,
+    subreddit,
+    subredditPosts: subredditPosts
+  })
+})
+
+router.get("/r/:subreddit/:category", async (req, res, next) => {
+  const category = req.params.category as SubredditCategory
+  const subreddit = req.params.subreddit
+  if (!subredditCategories.includes(category)) {
+    return res.redirect(`/r/${subreddit}`)
+  }
+
+  const subredditController = DI.subredditController()
+  const subredditPosts = await subredditController.getPosts(subreddit, category)
   if (subredditPosts == undefined) return res.render("error")
 
   return res.render("subreddit", {

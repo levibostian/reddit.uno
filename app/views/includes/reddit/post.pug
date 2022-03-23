@@ -14,7 +14,7 @@ mixin redditPost(post, index)
   p.mt0.mb1= post.data.author
   if hasVideo
     +postVideo(post, index)
-  else if isEmbed 
+  else if isEmbed
     +postEmbed(post, index)
   else if isGallery
     +postGallery(post, index)
